@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # потрібно для тегів
+          fetch-depth: 0
 
       - name: Get latest tag
         id: get_tag
@@ -33,10 +33,10 @@ jobs:
       - name: Bump version
         id: bump
         run: |
-          last=${{ steps.get_tag.outputs.last_tag }}
+          last_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
           bump=${{ github.event.inputs.bump }}
 
-          ver=${last#v}
+          ver=${last_tag#v}
           major=$(echo $ver | cut -d. -f1)
           minor=$(echo $ver | cut -d. -f2)
           patch=$(echo $ver | cut -d. -f3)
@@ -56,8 +56,8 @@ jobs:
               ;;
           esac
 
-          new="v$major.$minor.$patch"
-          echo "new_tag=$new" >> $GITHUB_OUTPUT
+          new_tag="v$major.$minor.$patch"
+          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
       - name: Create new tag
         run: |
