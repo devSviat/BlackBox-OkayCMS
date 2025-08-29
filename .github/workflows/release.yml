@@ -63,8 +63,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.bump.outputs.new_tag }}
-          git push origin ${{ steps.bump.outputs.new_tag }}
+          NEW_TAG=${{ steps.bump.outputs.new_tag }}
+          if git rev-parse "$NEW_TAG" >/dev/null 2>&1; then
+            echo "Tag $NEW_TAG already exists. Deleting it."
+            git tag -d "$NEW_TAG"
+            git push origin --delete "$NEW_TAG" || true
+          fi
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
 
       - name: Build module archive
         run: |
@@ -72,10 +78,13 @@ jobs:
           mkdir -p dist
           zip -r dist/BlackBox-${VERSION}.zip Okay/Modules/Sviat/BlackBox
 
-      - name: Create GitHub Release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.bump.outputs.new_tag }}
           name: Release ${{ steps.bump.outputs.new_tag }}
           generate_release_notes: true
           files: dist/BlackBox-${{ steps.bump.outputs.new_tag }}.zip
+          fail_on_unmatched_files: false
+          draft: false
+          prerelease: false
