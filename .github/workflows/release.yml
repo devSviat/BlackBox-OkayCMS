@@ -72,7 +72,7 @@ jobs:
           mkdir -p dist
           VERSION=${{ steps.bump.outputs.new_tag }}
           cd ./Okay/Modules/Sviat
-          zip -r "../../../../dist/BlackBox-${VERSION}.zip" BlackBox
+          zip -r ../../../../dist/BlackBox-${VERSION}.zip BlackBox
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
