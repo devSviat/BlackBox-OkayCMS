@@ -17,12 +17,12 @@ permissions:
   contents: write
 
 jobs:
-  bump:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # потрібно для тегів
 
       - name: Get latest tag
         id: get_tag
@@ -36,7 +36,6 @@ jobs:
           last=${{ steps.get_tag.outputs.last_tag }}
           bump=${{ github.event.inputs.bump }}
 
-          # Прибираємо "v"
           ver=${last#v}
           major=$(echo $ver | cut -d. -f1)
           minor=$(echo $ver | cut -d. -f2)
@@ -69,14 +68,15 @@ jobs:
 
       - name: Build module archive
         run: |
-          mkdir -p dist
           VERSION=${{ steps.bump.outputs.new_tag }}
-          cd ./Okay/Modules/Sviat
-          zip -r ../../../../dist/BlackBox-${VERSION}.zip BlackBox
+          mkdir -p dist
+          zip -r dist/BlackBox-${VERSION}.zip Okay/Modules/Sviat/BlackBox
 
-      - name: Create Release
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.bump.outputs.new_tag }}
+          name: Release ${{ steps.bump.outputs.new_tag }}
           generate_release_notes: true
           files: dist/BlackBox-${{ steps.bump.outputs.new_tag }}.zip
