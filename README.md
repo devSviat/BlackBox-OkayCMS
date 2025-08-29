@@ -16,7 +16,7 @@
 
 ## Встановлення
 
-1. Скачайте останню версію модуля з [URL репозиторію GitHub].  
+1. Скачайте останню версію модуля з [останнього релізу на GitHub](https://github.com/devSviat/BlackBox-OkayCMS/releases/latest).  
 2. Розпакуйте архів на сервері в каталог: `{OkayCMS_root}/Okay/Modules/`  
 
 ## Ліцензія
