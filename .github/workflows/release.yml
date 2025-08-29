@@ -27,16 +27,16 @@ jobs:
       - name: Get latest tag
         id: get_tag
         run: |
-          TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
-          echo "last_tag=$TAG" >> $GITHUB_OUTPUT
+          last_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          echo "last_tag=$last_tag" >> $GITHUB_OUTPUT
 
       - name: Bump version
         id: bump
         run: |
-          last_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          last=${{ steps.get_tag.outputs.last_tag }}
           bump=${{ github.event.inputs.bump }}
 
-          ver=${last_tag#v}
+          ver=${last#v}
           major=$(echo $ver | cut -d. -f1)
           minor=$(echo $ver | cut -d. -f2)
           patch=$(echo $ver | cut -d. -f3)
@@ -71,7 +71,6 @@ jobs:
           VERSION=${{ steps.bump.outputs.new_tag }}
           mkdir -p dist
           zip -r dist/BlackBox-${VERSION}.zip Okay/Modules/Sviat/BlackBox
-
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
