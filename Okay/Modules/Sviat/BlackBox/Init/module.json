@@ -1,0 +1,30 @@
+{
+  "Okay": "4.5.2",
+  "version": "1.0.3",
+  "name": "BlackBox",
+  "vendor": {
+    "site": "https://github.com/devSviat"
+  },
+  "modifications": {
+    "backend": [
+      {
+        "file": "order.tpl",
+        "changes": [
+          {
+            "find": "{if $order->referer_channel}",
+            "appendAfter": "blackbox_order_info.tpl"
+          }
+        ]
+      },
+      {
+        "file": "order.tpl",
+        "changes": [
+            {
+              "find": "<form method=\"post\" enctype=\"multipart/form-data\" class=\"fn_fast_button\">",
+              "appendAfter": "blackbox_modal_form.tpl"
+            }
+        ]
+      }
+    ]
+  }
+}

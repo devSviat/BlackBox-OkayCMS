@@ -1,0 +1,37 @@
+<?php
+
+$lang['sviat__blackbox__title'] = 'BlackBox';
+$lang['sviat__blackbox__api_settings'] = 'Налаштування API';
+$lang['sviat__blackbox__api_key'] = 'API ключ';
+$lang['sviat__blackbox__how_it_works'] = 'Як працює';
+$lang['sviat__blackbox__how_it_works_desc'] = 'Ключ можна отримати в кабінеті';
+$lang['sviat__blackbox__order_panel_title'] = 'Чорний список:';
+$lang['sviat__blackbox__found'] = 'Знайдено в BlackBox';
+$lang['sviat__blackbox__not_found'] = 'Не знайдено';
+$lang['sviat__blackbox__no_data'] = 'Немає даних';
+$lang['sviat__blackbox__api_error'] = 'Помилка API';
+$lang['sviat__blackbox__updated'] = 'Оновлено';
+$lang['sviat__blackbox__refresh'] = 'Оновити';
+$lang['sviat__blackbox__client_phone'] = 'Телефон';
+$lang['sviat__blackbox__client_last_name'] = 'Прізвище';
+$lang['sviat__blackbox__client_first_name'] = 'Ім’я';
+$lang['sviat__blackbox__client_names'] = 'ПІБ';
+$lang['sviat__blackbox__client_date'] = 'Дата';
+$lang['sviat__blackbox__client_type'] = 'Доставка';
+$lang['sviat__blackbox__client_ttn'] = 'ТТН';
+$lang['sviat__blackbox__client_city'] = 'Місто';
+$lang['sviat__blackbox__client_warehouse'] = 'Відділення';
+$lang['sviat__blackbox__client_cost'] = 'Сумма збитків';
+$lang['sviat__blackbox__client_comment'] = 'Коментар';
+$lang['sviat__blackbox__select_type_novaposhta'] = 'Нова Пошта';
+$lang['sviat__blackbox__select_type_delivery'] = 'Delivery';
+$lang['sviat__blackbox__learn_more'] = 'Детальніше';
+$lang['sviat__blackbox__send'] = 'Відправити';
+$lang['sviat__blackbox__error_101'] = 'Неправильні параметри запиту';
+$lang['sviat__blackbox__error_102'] = 'Невірний API ключ';
+$lang['sviat__blackbox__error_103'] = 'Немає телефону або ПІБ';
+$lang['sviat__blackbox__error_104'] = 'Закінчилися спроби запитів';
+$lang['sviat__blackbox__error_105'] = 'Помилка сервера';
+$lang['sviat__blackbox__error_unknown'] = 'Невідома помилка';
+$lang['sviat__blackbox__error_required'] = 'Заповніть обов\'язкові поля та виправте помилки';
+$lang['sviat__blackbox__add_client_info'] = 'Додати проблемного клієнта';

@@ -1,0 +1,37 @@
+<?php
+
+$lang['sviat__blackbox__title'] = 'BlackBox';
+$lang['sviat__blackbox__api_settings'] = 'Настройки API';
+$lang['sviat__blackbox__api_key'] = 'API ключ';
+$lang['sviat__blackbox__how_it_works'] = 'Как это работает';
+$lang['sviat__blackbox__how_it_works_desc'] = 'Ключ можно получить в личном кабинете';
+$lang['sviat__blackbox__order_panel_title'] = 'Черный список:';
+$lang['sviat__blackbox__found'] = 'Найдено в BlackBox';
+$lang['sviat__blackbox__not_found'] = 'Не найдено';
+$lang['sviat__blackbox__no_data'] = 'Нет данных';
+$lang['sviat__blackbox__api_error'] = 'Ошибка API';
+$lang['sviat__blackbox__updated'] = 'Обновлено';
+$lang['sviat__blackbox__refresh'] = 'Обновить';
+$lang['sviat__blackbox__client_phone'] = 'Телефон';
+$lang['sviat__blackbox__client_last_name'] = 'Фамилия';
+$lang['sviat__blackbox__client_first_name'] = 'Имя';
+$lang['sviat__blackbox__client_names'] = 'ФИО';
+$lang['sviat__blackbox__client_date'] = 'Дата';
+$lang['sviat__blackbox__client_type'] = 'Доставка';
+$lang['sviat__blackbox__client_ttn'] = 'ТТН';
+$lang['sviat__blackbox__client_city'] = 'Город';
+$lang['sviat__blackbox__client_warehouse'] = 'Отделение';
+$lang['sviat__blackbox__client_cost'] = 'Сумма ущерба';
+$lang['sviat__blackbox__client_comment'] = 'Комментарий';
+$lang['sviat__blackbox__select_type_novaposhta'] = 'Новая Почта';
+$lang['sviat__blackbox__select_type_delivery'] = 'Доставка';
+$lang['sviat__blackbox__learn_more'] = 'Подробнее';
+$lang['sviat__blackbox__send'] = 'Отправить';
+$lang['sviat__blackbox__error_101'] = 'Неверные параметры запроса';
+$lang['sviat__blackbox__error_102'] = 'Неверный API ключ';
+$lang['sviat__blackbox__error_103'] = 'Нет телефона или ФИО';
+$lang['sviat__blackbox__error_104'] = 'Закончились попытки запросов';
+$lang['sviat__blackbox__error_105'] = 'Ошибка сервера';
+$lang['sviat__blackbox__error_unknown'] = 'Неизвестная ошибка';
+$lang['sviat__blackbox__error_required'] = 'Заполните обязательные поля и исправьте ошибки';
+$lang['sviat__blackbox__add_client_info'] = 'Добавить проблемного клиента';

@@ -1,0 +1,14 @@
+/*
+!README.md
+!.gitignore
+
+!/Okay
+/Okay/*
+
+!/Okay/Modules
+/Okay/Modules/*
+
+!/Okay/Modules/Sviat
+/Okay/Modules/Sviat/*
+
+!/Okay/Modules/Sviat/BlackBox

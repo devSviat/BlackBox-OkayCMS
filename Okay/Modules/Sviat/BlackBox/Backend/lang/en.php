@@ -1,0 +1,37 @@
+<?php
+
+$lang['sviat__blackbox__title'] = 'BlackBox';
+$lang['sviat__blackbox__api_settings'] = 'API Settings';
+$lang['sviat__blackbox__api_key'] = 'API Key';
+$lang['sviat__blackbox__how_it_works'] = 'How it Works';
+$lang['sviat__blackbox__how_it_works_desc'] = 'The key can be obtained in the account';
+$lang['sviat__blackbox__order_panel_title'] = 'Blacklist:';
+$lang['sviat__blackbox__found'] = 'Found in BlackBox';
+$lang['sviat__blackbox__not_found'] = 'Not Found';
+$lang['sviat__blackbox__no_data'] = 'No Data';
+$lang['sviat__blackbox__api_error'] = 'API Error';
+$lang['sviat__blackbox__updated'] = 'Updated';
+$lang['sviat__blackbox__refresh'] = 'Refresh';
+$lang['sviat__blackbox__client_phone'] = 'Phone';
+$lang['sviat__blackbox__client_last_name'] = 'Last Name';
+$lang['sviat__blackbox__client_first_name'] = 'First Name';
+$lang['sviat__blackbox__client_names'] = 'Full Name';
+$lang['sviat__blackbox__client_date'] = 'Date';
+$lang['sviat__blackbox__client_type'] = 'Delivery';
+$lang['sviat__blackbox__client_ttn'] = 'TTN';
+$lang['sviat__blackbox__client_city'] = 'City';
+$lang['sviat__blackbox__client_warehouse'] = 'Warehouse';
+$lang['sviat__blackbox__client_cost'] = 'Loss Amount';
+$lang['sviat__blackbox__client_comment'] = 'Comment';
+$lang['sviat__blackbox__select_type_novaposhta'] = 'Nova Poshta';
+$lang['sviat__blackbox__select_type_delivery'] = 'Delivery';
+$lang['sviat__blackbox__learn_more'] = 'Learn More';
+$lang['sviat__blackbox__send'] = 'Send';
+$lang['sviat__blackbox__error_101'] = 'Invalid request parameters';
+$lang['sviat__blackbox__error_102'] = 'Invalid API key';
+$lang['sviat__blackbox__error_103'] = 'No phone or full name';
+$lang['sviat__blackbox__error_104'] = 'Request attempts exhausted';
+$lang['sviat__blackbox__error_105'] = 'Server error';
+$lang['sviat__blackbox__error_unknown'] = 'Unknown error';
+$lang['sviat__blackbox__error_required'] = 'Please fill in the required fields and correct the errors';
+$lang['sviat__blackbox__add_client_info'] = 'Add Problematic Client';

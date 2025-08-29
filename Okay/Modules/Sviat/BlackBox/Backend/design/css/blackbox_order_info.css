@@ -1,0 +1,112 @@
+.client_info {
+    display: none;
+    margin-top: 8px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+    line-height: 1.4;
+}
+.fn_switch_client_info {
+    cursor: pointer;
+    color: #959595;
+    text-decoration: underline;
+}
+.fn_switch_client_info:hover {
+    color: #007bff;
+}
+.fn_switch_client_info:active {
+    color: #0056b3;
+}
+.fn_switch_client_info svg {
+    width: 20px;
+    height: 20px;
+}
+.client_info.active {
+    display: block;
+}
+.text_label {
+    color: #adadad;
+    font-weight: 400;
+}
+.btn_refresh {
+    padding: 2px;
+    margin-left: 4px;
+    height: 24px;
+    background-color: transparent;
+    color: #737373;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn_refresh svg {
+    width: 16px;
+    height: 16px;
+}
+.btn_refresh:hover {
+    background-color: #f1f1f1;
+    color: #333;
+}
+.btn_refresh:active {
+    background-color: #e0e0e0;
+    color: #000;
+}
+.fn_add_client_info {
+    cursor: pointer;
+    color: #959595;
+    text-decoration: underline;
+}
+.fn_add_client_info:hover {
+    color: #28a745;
+}
+.fn_add_client_info:active {
+    color: #1e7e34;
+}
+.fn_add_client_info svg {
+    width: 20px;
+    height: 20px;
+}
+.bb-modal {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+}
+
+.bb-modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bb-modal_heading {
+    font-weight: 600;
+    color: #333;
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 15px;
+}
+
+.bb-modal-close {
+    color: #aaa;
+    float: right;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+
+.bb-modal-close:hover,
+.bb-modal-close:focus {
+    color: #333;
+}
