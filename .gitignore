@@ -1,14 +1,15 @@
+# 🔹 Ігнорувати все за замовчуванням
 /*
-!README.md
+
+# 🔹 залишити основні файли в корені
 !.gitignore
+!README.md
 
-!/Okay
-/Okay/*
+# 🔹 Дозволити  GitHub
+!.github/
+!.github/workflows/
+!.github/workflows/release.yml
 
-!/Okay/Modules
-/Okay/Modules/*
-
-!/Okay/Modules/Sviat
-/Okay/Modules/Sviat/*
-
-!/Okay/Modules/Sviat/BlackBox
+# 🔹 Дозволити директорію Okay та модулі
+!/Okay/Modules/Sviat/
+!/Okay/Modules/Sviat/BlackBox/
