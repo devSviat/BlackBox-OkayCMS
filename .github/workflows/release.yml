@@ -59,6 +59,14 @@ jobs:
           new_tag="v$major.$minor.$patch"
           echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
+      - name: Check for changes since last tag
+        run: |
+          LAST_TAG=${{ steps.get_tag.outputs.last_tag }}
+          if [ "$LAST_TAG" != "v0.0.0" ] && [ "$(git rev-parse $LAST_TAG)" = "$(git rev-parse HEAD)" ]; then
+            echo "No new commits since $LAST_TAG. Aborting."
+            exit 1
+          fi
+
       - name: Create new tag
         run: |
           git config user.name "github-actions[bot]"
@@ -78,6 +86,16 @@ jobs:
           mkdir -p dist
           zip -r dist/BlackBox-${VERSION}.zip Okay/Modules/Sviat/BlackBox
 
+      - name: Delete existing release if it exists
+        run: |
+          TAG=${{ steps.bump.outputs.new_tag }}
+          RELEASE_ID=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG | jq .id)
+          if [ "$RELEASE_ID" != "null" ]; then
+            curl -s -X DELETE -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID
+          fi
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
@@ -88,3 +106,5 @@ jobs:
           fail_on_unmatched_files: false
           draft: false
           prerelease: false
+          body: |
+            Full Changelog: https://github.com/${{ github.repository }}/compare/${{ steps.get_tag.outputs.last_tag }}...${{ steps.bump.outputs.new_tag }}
