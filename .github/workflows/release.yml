@@ -106,5 +106,3 @@ jobs:
           fail_on_unmatched_files: false
           draft: false
           prerelease: false
-          body: |
-            Full Changelog: https://github.com/${{ github.repository }}/compare/${{ steps.get_tag.outputs.last_tag }}...${{ steps.bump.outputs.new_tag }}
