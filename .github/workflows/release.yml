@@ -84,7 +84,13 @@ jobs:
         run: |
           VERSION=${{ steps.bump.outputs.new_tag }}
           mkdir -p dist
-          zip -r dist/BlackBox-${VERSION}.zip Okay/Modules/Sviat/BlackBox
+          mkdir -p temp_build/Sviat/BlackBox
+          # Copy all files except .github and README.md
+          rsync -av --exclude='.github' --exclude='README.md' --exclude='temp_build' --exclude='dist' --exclude='.git' ./ temp_build/Sviat/BlackBox/
+          cd temp_build
+          zip -r ../dist/BlackBox-${VERSION}.zip Sviat/BlackBox
+          cd ..
+          rm -rf temp_build
 
       - name: Delete existing release if it exists
         run: |
