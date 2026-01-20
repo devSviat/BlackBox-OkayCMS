@@ -13,6 +13,10 @@ on:
           - minor
           - patch
 
+env:
+  VENDOR: Sviat
+  MODULE: BlackBox
+
 permissions:
   contents: write
 
@@ -59,6 +63,12 @@ jobs:
           new_tag="v$major.$minor.$patch"
           echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
+      - name: Set build variables
+        id: vars
+        run: |
+          echo "module_path=${{ env.VENDOR }}/${{ env.MODULE }}" >> $GITHUB_OUTPUT
+          echo "zip_name=${{ env.MODULE }}-${{ steps.bump.outputs.new_tag }}.zip" >> $GITHUB_OUTPUT
+
       - name: Check for changes since last tag
         run: |
           LAST_TAG=${{ steps.get_tag.outputs.last_tag }}
@@ -82,13 +92,20 @@ jobs:
 
       - name: Build module archive
         run: |
-          VERSION=${{ steps.bump.outputs.new_tag }}
           mkdir -p dist
-          mkdir -p temp_build/Sviat/BlackBox
-          # Copy all files except .github, .gitignore and README.md
-          rsync -av --exclude='.github' --exclude='.gitignore' --exclude='README.md' --exclude='temp_build' --exclude='dist' --exclude='.git' ./ temp_build/Sviat/BlackBox/
+          mkdir -p temp_build/${{ steps.vars.outputs.module_path }}
+
+          rsync -av \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            --exclude='temp_build' \
+            --exclude='dist' \
+            --exclude='.git' \
+            ./ temp_build/${{ steps.vars.outputs.module_path }}/
+
           cd temp_build
-          zip -r ../dist/BlackBox-${VERSION}.zip Sviat/BlackBox
+          zip -r ../dist/${{ steps.vars.outputs.zip_name }} ${{ steps.vars.outputs.module_path }}
           cd ..
           rm -rf temp_build
 
@@ -103,12 +120,12 @@ jobs:
           fi
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.bump.outputs.new_tag }}
           name: Release ${{ steps.bump.outputs.new_tag }}
           generate_release_notes: true
-          files: dist/BlackBox-${{ steps.bump.outputs.new_tag }}.zip
+          files: dist/${{ steps.vars.outputs.zip_name }}
           fail_on_unmatched_files: false
           draft: false
           prerelease: false
