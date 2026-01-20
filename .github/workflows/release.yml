@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: "Яку частину версії підняти?"
+        description: "Select version bump type?"
         required: true
         default: "patch"
         type: choice
