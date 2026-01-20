@@ -85,8 +85,8 @@ jobs:
           VERSION=${{ steps.bump.outputs.new_tag }}
           mkdir -p dist
           mkdir -p temp_build/Sviat/BlackBox
-          # Copy all files except .github and README.md
-          rsync -av --exclude='.github' --exclude='README.md' --exclude='temp_build' --exclude='dist' --exclude='.git' ./ temp_build/Sviat/BlackBox/
+          # Copy all files except .github, .gitignore and README.md
+          rsync -av --exclude='.github' --exclude='.gitignore' --exclude='README.md' --exclude='temp_build' --exclude='dist' --exclude='.git' ./ temp_build/Sviat/BlackBox/
           cd temp_build
           zip -r ../dist/BlackBox-${VERSION}.zip Sviat/BlackBox
           cd ..
