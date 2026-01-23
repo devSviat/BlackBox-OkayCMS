@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "name": "BlackBox",
   "vendor": {
+    "email": "devsviat@proton.me",
     "site": "https://github.com/devSviat"
   },
   "modifications": {
