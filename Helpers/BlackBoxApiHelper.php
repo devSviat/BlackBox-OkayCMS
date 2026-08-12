@@ -45,7 +45,6 @@ class BlackBoxApiHelper
         curl_setopt($ch, CURLOPT_TIMEOUT, 8);
         $response = curl_exec($ch);
         $errno = curl_errno($ch);
-        curl_close($ch);
 
         if ($errno !== 0 || $response === false) {
             return [
@@ -90,7 +89,6 @@ class BlackBoxApiHelper
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         $response = curl_exec($ch);
         $errno = curl_errno($ch);
-        curl_close($ch);
 
         if ($errno !== 0 || $response === false) {
             return [
@@ -115,6 +113,7 @@ class BlackBoxApiHelper
         if (empty($phone)) {
             return null;
         }
+        // Keep digits only, ensure leading 0 for UA local formats if needed
         $digits = preg_replace('~\D+~', '', $phone);
         if ($digits === null) {
             return null;

@@ -30,6 +30,28 @@ permissions:
   contents: write
 
 jobs:
+  lint:
+    name: Синтаксис PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 7.4 — нижня межа стоку, 8.0 — верхня, 8.5 — форк. Код модуля
+        # мусить бути чистим на всіх трьох, бо їде в один архів.
+        php: ['7.4', '8.0', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - run: |
+          set -euo pipefail
+          find . -path ./.git -prune -o -name '*.php' -print0 \
+            | xargs -0 -r -n1 -P4 php -l
+
   verify:
     name: ${{ matrix.target }} (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
@@ -40,7 +62,9 @@ jobs:
           - target: stock
             repo: OkayCMS/OkayCMS
             ref: '4.5.2'
-            php: '7.4'
+            # 8.0 — верхня версія, яку сток підтримує. Тести написані під
+            # PHP 8; синтаксис під 7.4 перевіряє окремий job lint.
+            php: '8.0'
           - target: fork
             repo: devSviat/OkayCMS
             ref: main
@@ -58,15 +82,6 @@ jobs:
           extensions: simplexml, xmlreader, pdo, json, curl, mbstring, zip, gd
           coverage: none
           tools: composer:v2
-
-      # Головна перевірка сумісності: те, що збирається під 8.5, легко
-      # виявляється несинтаксичним під 7.4 — і навпаки нічого не коштує.
-      - name: Синтаксис під PHP ${{ matrix.php }}
-        working-directory: module
-        run: |
-          set -euo pipefail
-          find . -path ./.git -prune -o -name '*.php' -print0 \
-            | xargs -0 -r -n1 -P4 php -l
 
       - name: Чи має модуль тести
         id: tests
@@ -110,7 +125,7 @@ jobs:
         run: vendor/bin/phpunit "tests/Modules/$VENDOR/$MODULE"
 
   release:
-    needs: verify
+    needs: [lint, verify]
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.bump.outputs.version }}
@@ -241,6 +256,31 @@ jobs:
             exit 1
           fi
 
+  # Дзеркало job'а lint для гілки fork: її код так само їде в архів.
+  lint-fork:
+    needs: detect-fork
+    if: needs.detect-fork.outputs.present == 'true'
+    name: fork-гілка / синтаксис PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fork
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - run: |
+          set -euo pipefail
+          find . -path ./.git -prune -o -name '*.php' -print0 \
+            | xargs -0 -r -n1 -P4 php -l
+
   # Той самий набір перевірок, що й для базового релізу, але на гілці fork.
   # Без цього job'а рушій-специфічний код — єдиний, де різниця рушіїв взагалі
   # може зламатися, — виходив би в реліз узагалі неперевіреним.
@@ -256,7 +296,9 @@ jobs:
           - target: stock
             repo: OkayCMS/OkayCMS
             ref: '4.5.2'
-            php: '7.4'
+            # 8.0 — верхня версія, яку сток підтримує. Тести написані під
+            # PHP 8; синтаксис під 7.4 перевіряє окремий job lint.
+            php: '8.0'
           - target: fork
             repo: devSviat/OkayCMS
             ref: main
@@ -275,13 +317,6 @@ jobs:
           extensions: simplexml, xmlreader, pdo, json, curl, mbstring, zip, gd
           coverage: none
           tools: composer:v2
-
-      - name: Синтаксис під PHP ${{ matrix.php }}
-        working-directory: module
-        run: |
-          set -euo pipefail
-          find . -path ./.git -prune -o -name '*.php' -print0 \
-            | xargs -0 -r -n1 -P4 php -l
 
       - name: Чи має модуль тести
         id: tests
@@ -323,7 +358,7 @@ jobs:
         run: vendor/bin/phpunit "tests/Modules/$VENDOR/$MODULE"
 
   release-fork:
-    needs: [release, detect-fork, verify-fork]
+    needs: [release, detect-fork, lint-fork, verify-fork]
     if: needs.detect-fork.outputs.present == 'true'
     runs-on: ubuntu-latest
     steps:

@@ -5,6 +5,7 @@ use Okay\Core\Design;
 use Okay\Core\Request;
 use Okay\Core\Settings;
 use Okay\Core\EntityFactory;
+use Okay\Modules\Sviat\BlackBox\Backend\Controllers\Admin;
 use Okay\Modules\Sviat\BlackBox\Extenders\BackendExtender;
 use Okay\Modules\Sviat\BlackBox\Helpers\BlackBoxApiHelper;
 use Okay\Core\OkayContainer\Reference\ServiceReference as SR;

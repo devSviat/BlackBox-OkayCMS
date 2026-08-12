@@ -36,6 +36,7 @@ class BlackBoxController extends AbstractController
             return;
         }
 
+        // Оновлюємо кеш BlackBox
         $backendExtender->updateBlackBoxOrderInfo($order);
 
         /** @var BlackBoxCacheEntity $cacheEntity */
@@ -62,6 +63,7 @@ class BlackBoxController extends AbstractController
     }
 
 
+    // Додати інформацію про клієнта через BlackBox API
     public function addClientInfo(
         EntityFactory $entityFactory,
         BlackBoxApiHelper $apiHelper,
@@ -150,6 +152,7 @@ class BlackBoxController extends AbstractController
         }
 
 
+        // Оновлюємо кеш після успішного додавання
         $backendExtender->updateBlackBoxOrderInfo($order);
 
         $this->response->setContent(json_encode(['success' => true]), RESPONSE_JSON);

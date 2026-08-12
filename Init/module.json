@@ -1,7 +1,6 @@
 {
   "Okay": "4.5.2",
-  "version": "1.0.3",
-  "name": "BlackBox",
+  "version": "1.0.4",
   "vendor": {
     "email": "devsviat@proton.me",
     "site": "https://github.com/devSviat"
@@ -18,13 +17,13 @@
         ]
       },
       {
-        "file": "order.tpl",
-        "changes": [
-            {
-              "find": "<form method=\"post\" enctype=\"multipart/form-data\" class=\"fn_fast_button\">",
-              "appendAfter": "blackbox_modal_form.tpl"
-            }
-        ]
+          "file": "order.tpl",
+          "changes": [
+              {
+                  "find": "<form method=\"post\" enctype=\"multipart/form-data\" class=\"fn_fast_button\">",
+                  "appendAfter": "blackbox_modal_form.tpl"
+              }
+          ]
       }
     ]
   }

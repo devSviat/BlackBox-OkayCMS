@@ -132,6 +132,13 @@
                     if (data.blackbox_info.success) {
                         toastr.success('', "{/literal}{$btr->toastr_success|escape}{literal}");
                         $('.fn_bb_updated').children('span').text(data.blackbox_info.cached_at);
+                        // if (data.blackbox_info.success && data.blackbox_info.data) {
+                        //     const clientDataKey = Object.keys(data.blackbox_info.data)[0];
+                        //     const clientInfo = data.blackbox_info.data[clientDataKey];
+                        //     console.log('Client Data Key:', clientDataKey);
+                        //     console.log('Client Info:', clientInfo);
+                        // }
+                        // location.reload();
                     }
                 }
             });
