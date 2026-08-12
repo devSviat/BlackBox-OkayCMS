@@ -121,6 +121,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      # workflow_dispatch запускається з будь-якої гілки, а кроки нижче
+      # комітять і тегають ту, з якої запущено. Без цієї перевірки реліз із
+      # випадкової гілки виглядав би як звичайний.
+      - name: Реліз лише з основної гілки
+        run: |
+          set -euo pipefail
+          default='${{ github.event.repository.default_branch }}'
+          if [ '${{ github.ref_name }}' != "$default" ]; then
+            echo "Реліз запускається лише з $default, а не з ${{ github.ref_name }}."
+            exit 1
+          fi
+
       - name: Порахувати нову версію
         id: bump
         run: |
@@ -191,11 +203,13 @@ jobs:
           generate_release_notes: true
           files: dist/*.zip
 
-  # Збирається тільки якщо в репозиторії є гілка `fork` — тобто якщо
-  # форк-специфічні зміни справді існують. Немає гілки — немає й тега.
-  release-fork:
+  # Чи є взагалі форк-специфічні зміни. Окремим job'ом, бо результат потрібен
+  # у job-рівневих `if` наступних двох.
+  detect-fork:
     needs: release
     runs-on: ubuntu-latest
+    outputs:
+      present: ${{ steps.check.outputs.present }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -212,10 +226,6 @@ jobs:
             echo 'Гілки fork немає — форк-специфічних змін теж, варіант не збирається.'
           fi
 
-      - name: Перейти на fork
-        if: steps.check.outputs.present == 'true'
-        run: git checkout fork
-
       # Явна відмова замість тихого злиття: якщо fork не містить щойно
       # випущеного коміту, його архів був би старішим за базовий і мовчки
       # роз'їхався б з ним.
@@ -224,14 +234,105 @@ jobs:
         run: |
           set -euo pipefail
           base='${{ needs.release.outputs.commit }}'
-          if ! git merge-base --is-ancestor "$base" HEAD; then
+          git fetch origin fork
+          if ! git merge-base --is-ancestor "$base" origin/fork; then
             echo "Гілка fork не містить коміт релізу $base."
-            echo "Влий у неї основну гілку і запусти реліз ще раз."
+            echo 'Влий у неї основну гілку і запусти реліз ще раз.'
             exit 1
           fi
 
+  # Той самий набір перевірок, що й для базового релізу, але на гілці fork.
+  # Без цього job'а рушій-специфічний код — єдиний, де різниця рушіїв взагалі
+  # може зламатися, — виходив би в реліз узагалі неперевіреним.
+  verify-fork:
+    needs: detect-fork
+    if: needs.detect-fork.outputs.present == 'true'
+    name: fork-гілка / ${{ matrix.target }} (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: stock
+            repo: OkayCMS/OkayCMS
+            ref: '4.5.2'
+            php: '7.4'
+          - target: fork
+            repo: devSviat/OkayCMS
+            ref: main
+            php: '8.5'
+    steps:
+      - name: Забрати гілку fork
+        uses: actions/checkout@v4
+        with:
+          ref: fork
+          path: module
+
+      - name: Поставити PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: simplexml, xmlreader, pdo, json, curl, mbstring, zip, gd
+          coverage: none
+          tools: composer:v2
+
+      - name: Синтаксис під PHP ${{ matrix.php }}
+        working-directory: module
+        run: |
+          set -euo pipefail
+          find . -path ./.git -prune -o -name '*.php' -print0 \
+            | xargs -0 -r -n1 -P4 php -l
+
+      - name: Чи має модуль тести
+        id: tests
+        working-directory: module
+        run: |
+          set -euo pipefail
+          if [ -n "$(find tests -name '*Test.php' -print -quit 2>/dev/null)" ]; then
+            echo 'present=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'present=false' >> "$GITHUB_OUTPUT"
+            echo 'Тестів у модулі немає — прогін пропускається.'
+          fi
+
+      - name: Забрати рушій ${{ matrix.target }}
+        if: steps.tests.outputs.present == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          ref: ${{ matrix.ref }}
+          path: engine
+
+      - name: Залежності рушія
+        if: steps.tests.outputs.present == 'true'
+        working-directory: engine
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Вкласти модуль у рушій
+        if: steps.tests.outputs.present == 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p "engine/Okay/Modules/$VENDOR/$MODULE" "engine/tests/Modules/$VENDOR/$MODULE"
+          rsync -a --exclude=.git --exclude=.github --exclude=tests \
+            module/ "engine/Okay/Modules/$VENDOR/$MODULE/"
+          rsync -a module/tests/ "engine/tests/Modules/$VENDOR/$MODULE/"
+
+      - name: PHPUnit на ${{ matrix.target }}
+        if: steps.tests.outputs.present == 'true'
+        working-directory: engine
+        run: vendor/bin/phpunit "tests/Modules/$VENDOR/$MODULE"
+
+  release-fork:
+    needs: [release, detect-fork, verify-fork]
+    if: needs.detect-fork.outputs.present == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fork
+          fetch-depth: 0
+
       - name: Вирівняти версію й поставити тег
-        if: steps.check.outputs.present == 'true'
         run: |
           set -euo pipefail
           v='${{ needs.release.outputs.version }}'
@@ -245,7 +346,6 @@ jobs:
           git push origin '${{ needs.release.outputs.tag }}-fork'
 
       - name: Зібрати архів
-        if: steps.check.outputs.present == 'true'
         run: |
           set -euo pipefail
           mkdir -p dist "build/$VENDOR/$MODULE"
@@ -255,7 +355,6 @@ jobs:
           (cd build && zip -rq "../dist/$MODULE-${{ needs.release.outputs.tag }}-fork.zip" "$VENDOR")
 
       - name: Реліз
-        if: steps.check.outputs.present == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.release.outputs.tag }}-fork
