@@ -135,6 +135,7 @@
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
 
+                // Префілл полів з даних замовлення
                 const typeTrackInput = document.getElementById('blackbox-type_track');
                 const phoneInput = document.getElementById('blackbox-phonenumber');
                 const lastNameInput = document.getElementById('blackbox-last_name');
@@ -223,6 +224,7 @@
                 if (!isValid) {
                     if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
 
+                    // Повідомлення користувачу: використовуємо toastr якщо він є, інакше alert
                     if (typeof toastr !== 'undefined' && typeof toastr.error === 'function') {
                         toastr.error('{/literal}{$btr->sviat__blackbox__error_required|escape}{literal}');
                     } else {
@@ -232,6 +234,7 @@
                     return;
                 }
 
+                // Якщо валідація пройшла, надсилаємо дані
                 const data = {
                     'blackbox-type_track': document.getElementById('blackbox-type_track').value,
                     'blackbox-ttn': document.getElementById('blackbox-ttn').value,
