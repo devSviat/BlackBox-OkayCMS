@@ -8,9 +8,14 @@ use Okay\Core\EntityFactory;
 use Okay\Modules\Sviat\BlackBox\Backend\Controllers\Admin;
 use Okay\Modules\Sviat\BlackBox\Extenders\BackendExtender;
 use Okay\Modules\Sviat\BlackBox\Helpers\BlackBoxApiHelper;
+use Okay\Modules\Sviat\BlackBox\Security\AdminIdentity;
 use Okay\Core\OkayContainer\Reference\ServiceReference as SR;
 
 return [
+    AdminIdentity::class => [
+        'class' => AdminIdentity::class,
+        'arguments' => [],
+    ],
     BlackBoxApiHelper::class => [
         'class' => BlackBoxApiHelper::class,
         'arguments' => [
