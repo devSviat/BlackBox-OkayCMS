@@ -117,6 +117,9 @@
             let client_last_name = $('input[name="last_name"]').val();
             $.ajax({
                 url: okay.router['Sviat_BlackBox_update'],
+                // Тільки POST: маршрут іде повз авторизацію бекенду, а на GET
+                // його дістає навігація з чужої сторінки.
+                type: 'POST',
                 data: {
                     phone: client_phone,
                     name: client_name,

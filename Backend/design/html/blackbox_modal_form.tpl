@@ -250,6 +250,9 @@
 
                 $.ajax({
                     url: okay.router['Sviat_BlackBox_add'],
+                    // Тільки POST: маршрут іде повз авторизацію бекенду, а на
+                    // GET його дістає навігація з чужої сторінки.
+                    type: 'POST',
                     data: data,
                     dataType: 'json',
                     success: function(response) {
