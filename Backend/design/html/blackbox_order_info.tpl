@@ -21,7 +21,7 @@
                                 {/if}
                                 {if $clientInfo.fios}
                                     <span class="text_label">{$btr->sviat__blackbox__client_names|escape}:</span>
-                                    {', '|implode:$clientInfo.fios|escape}<br>
+                                    {foreach $clientInfo.fios as $fio}{$fio|escape}{if !$fio@last}, {/if}{/foreach}<br>
                                 {/if}
                                 {if $clientInfo.tracks}
                                     {foreach $clientInfo.tracks as $track}
