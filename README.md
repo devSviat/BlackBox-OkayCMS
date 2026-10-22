@@ -11,7 +11,7 @@
 
 ## Вимоги
 
-- OkayCMS v4.5.2  
+- OkayCMS v4.5.3 (чиста або [форк](https://github.com/devSviat/OkayCMS)); PHP 7.4 або 8.1–8.5
 - API-ключ BlackBox
 
 ## Встановлення
