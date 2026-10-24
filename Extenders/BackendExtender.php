@@ -82,7 +82,7 @@ class BackendExtender implements ExtensionInterface
                     'phone' => $firstEntry['phone_formatted'] ?? ($firstEntry['phone'] ?? null),
                 ];
                 if (!empty($firstEntry['fios']) && is_array($firstEntry['fios'])) {
-                    $clientInfo['fios'] = array_values(array_filter($firstEntry['fios'], 'strlen'));
+                    $clientInfo['fios'] = array_values(array_filter($firstEntry['fios'], strlen(...)));
                 }
                 if (!empty($firstEntry['tracks']) && is_array($firstEntry['tracks'])) {
                     $clientInfo['tracks'] = [];
