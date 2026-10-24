@@ -118,7 +118,7 @@ class BlackBoxApiHelper
         if ($digits === null) {
             return null;
         }
-        if (strlen($digits) === 12 && substr($digits, 0, 2) === '38') {
+        if (strlen($digits) === 12 && str_starts_with($digits, '38')) {
             $digits = substr($digits, 2);
         }
         if (strlen($digits) === 9) {

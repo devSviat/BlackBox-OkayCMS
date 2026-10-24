@@ -21,7 +21,7 @@ class BlackBoxController extends AbstractController
      * тож і право те саме, що в менеджера на замовлення. `settings` тут
      * замкнуло б кнопку від тих, хто з замовленнями й працює.
      */
-    private const PERMISSION = 'orders';
+    private const string PERMISSION = 'orders';
 
     public function updateClientInfo(
         EntityFactory $entityFactory,

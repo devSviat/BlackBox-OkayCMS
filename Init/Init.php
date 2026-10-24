@@ -16,12 +16,12 @@ class Init extends AbstractInit
     {
         $this->setBackendMainController('Admin');
         $this->migrateEntityTable(BlackBoxCacheEntity::class, [
-            (new EntityField('id'))->setTypeInt(11)->setAutoIncrement(),
-            (new EntityField('phone'))->setTypeVarchar(32)->setNullable(),
-            (new EntityField('last_name'))->setTypeVarchar(255)->setNullable(),
-            (new EntityField('status'))->setTypeVarchar(32)->setNullable(),
-            (new EntityField('payload'))->setTypeText()->setNullable(),
-            (new EntityField('updated_at'))->setTypeDatetime()->setNullable(),
+            new EntityField('id')->setTypeInt(11)->setAutoIncrement(),
+            new EntityField('phone')->setTypeVarchar(32)->setNullable(),
+            new EntityField('last_name')->setTypeVarchar(255)->setNullable(),
+            new EntityField('status')->setTypeVarchar(32)->setNullable(),
+            new EntityField('payload')->setTypeText()->setNullable(),
+            new EntityField('updated_at')->setTypeDatetime()->setNullable(),
         ]);
     }
 

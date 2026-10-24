@@ -20,7 +20,7 @@ use Okay\Core\Request;
 class RequestOrigin
 {
     /** Порти, які в origin не пишуться. */
-    private const DEFAULT_PORTS = ['http' => 80, 'https' => 443];
+    private const array DEFAULT_PORTS = ['http' => 80, 'https' => 443];
 
     public static function isFromThisSite(): bool
     {
@@ -29,8 +29,8 @@ class RequestOrigin
             return false;
         }
 
-        $origin  = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : null;
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+        $origin  = $_SERVER['HTTP_ORIGIN'] ?? null;
+        $referer = $_SERVER['HTTP_REFERER'] ?? null;
 
         // Origin виграє: браузер ставить його сам, а Referer ріжуть проксі
         // й розширення приватності. Другий кандидат — лише коли першого немає.
