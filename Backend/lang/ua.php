@@ -35,3 +35,4 @@ $lang['sviat__blackbox__error_105'] = 'Помилка сервера';
 $lang['sviat__blackbox__error_unknown'] = 'Невідома помилка';
 $lang['sviat__blackbox__error_required'] = 'Заповніть обов\'язкові поля та виправте помилки';
 $lang['sviat__blackbox__add_client_info'] = 'Додати проблемного клієнта';
+$lang['sviat__blackbox__api_key_keep'] = 'Ключ збережено. Залиште поле порожнім, щоб не змінювати його';
