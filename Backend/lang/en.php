@@ -35,3 +35,4 @@ $lang['sviat__blackbox__error_105'] = 'Server error';
 $lang['sviat__blackbox__error_unknown'] = 'Unknown error';
 $lang['sviat__blackbox__error_required'] = 'Please fill in the required fields and correct the errors';
 $lang['sviat__blackbox__add_client_info'] = 'Add Problematic Client';
+$lang['sviat__blackbox__api_key_keep'] = 'A key is saved. Leave the field empty to keep it';

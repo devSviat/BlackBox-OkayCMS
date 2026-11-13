@@ -32,7 +32,7 @@
                         <div class="col-xxl-12 col-lg-12 col-md-12">
                             <div class="heading_label heading_label--required"><span>{$btr->sviat__blackbox__api_key|escape}</span></div>
                             <div class="mb-1">
-                                <input type="text" name="blackbox_api_key" value="{$settings->blackbox_api_key|escape}" class="form-control">
+                                <input type="password" name="blackbox_api_key" value="" autocomplete="new-password" class="form-control" placeholder="{if $settings->blackbox_api_key}{$btr->sviat__blackbox__api_key_keep|escape}{/if}">
                             </div>
                         </div>
 
